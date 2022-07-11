@@ -7,8 +7,16 @@
     rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
     crossorigin="anonymous">
-    <link href="css/my-style.css" rel="stylesheet">
 	<title th:text="${title}"></title>
+	<style>
+        body {
+	        background-image: url("/images/background.jpg");
+	        height:100%;
+        	background-position: center;
+            background-size: fill;
+            color:white;
+        }
+    </style>
 </head>
 <body>
     <header th:fragment="headerUser" class="alert alert-primary d-flex justify-content-end" style="font-size:90%">
