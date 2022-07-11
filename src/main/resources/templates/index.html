@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base.html :: headerfiles(title='SIW')"> </head>
+<body>
+    <div>
+    	<h4>Welcome Page</h4>
+		<div>
+			<a th:href="@{/login}">Accedi</a>
+   		</div>
+		<div>
+			<a th:href="@{/register}">Registrati</a>
+   		</div>
+    </div>
+    <footer th:replace="fragments/base.html :: fondo(home='/')"></footer>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/base.html :: headerfiles(title='OC Universe')"> </head>
+
+<body>
+	<h1 th:text="'Crea un nuovo personaggio'"></h1>
+	
+	<form th:action="@{'/character/' + ${user.id}}" method="POST" th:object="${character}" enctype="multipart/form-data">
+		<div th:if="${#fields.hasGlobalErrors()}">
+			  <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+		</div>
+		<input type="hidden" th:field="*{id}" th:value="${character.id}" />
+		<div>
+			<span>Nome:<input type="text" th:field="*{name}"  /></span>
+			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+		</div>
+		<div>
+			<span>Descrizione:<input type="text" th:field="*{description}" /></span>
+		</div>
+		<div>
+			<span>Immagine:<input type="file" name="image" accept="image/png, image/jpeg, image/jpg" /></span>
+		</div>
+		<div>
+			<span><button class="btn btn-primary" type="submit">Conferma</button></span>
+		</div>
+	</form>
+<footer th:replace="fragments/base.html :: fondo(home='/default')"></footer>
+</body>
+
+</html>

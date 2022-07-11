@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/base.html :: headerfiles(title='Catering Service')"> </head>
+
+<body>
+<h4 th:text="'Personaggi Creati'"></h4>
+<table class="table">
+<thead>
+    <tr>
+        <th scope="col">Nome</th>
+        <th scope="col"></th>
+    </tr>
+</thead>
+<tbody>
+	<tr th:each="character : ${listCharacter}">
+		<td><a th:href="@{'/character/' + ${character.id}}" th:text="${character.name}" /></td>
+		<td>
+		    <a class="btn btn-success" th:href="@{'/character/edit/' + ${character.id}}">Modifica</a>
+		    &nbsp;
+		    <a class="btn btn-danger" th:href="@{'/character/delete/' + ${character.id}}">Cancella</a>
+		</td>
+	</tr>
+</tbody>
+</table>
+<footer th:replace="fragments/base.html :: fondo(home='/default')"></footer>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/base.html :: headerfiles(title='Catering Service')"> </head>
+
+<body>
+		<div class="border">
+			<h4 th:text="${chapter.title}"></h4>
+			<a th:href="@{'/chapter/edit/' + ${chapter.id}}">Modifica</a>
+		    &nbsp;
+			<a th:href="@{'/chapter/delete/' + ${chapter.id}}">Cancella</a>
+		</div>
+	    <div>
+	        <th:block th:text="${chapter.content}"></th:block>
+		</div>
+	</div>
+	<footer th:replace="fragments/base.html :: fondo(home='/default')"></footer>
+</body>
+
+</html>
