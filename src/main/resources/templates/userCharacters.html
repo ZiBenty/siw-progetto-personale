@@ -9,12 +9,21 @@
 <thead>
     <tr>
         <th scope="col">Nome</th>
+        <th scope="col">Storia</th>
         <th scope="col"></th>
     </tr>
 </thead>
 <tbody>
 	<tr th:each="character : ${listCharacter}">
 		<td><a th:href="@{'/character/' + ${character.id}}" th:text="${character.name}" /></td>
+		<td>
+		    <th:block th:if="${not #lists.isEmpty(character.story)}">
+		        <a th:href="@{'/chapters/' + ${character.id}}">Storia</a>
+		    </th:block>
+		    <th:block th:unless="${not #lists.isEmpty(character.story)}">
+		        Vuoto
+		    </th:block>
+		</td>
 		<td>
 		    <a class="btn btn-success" th:href="@{'/character/edit/' + ${character.id}}">Modifica</a>
 		    &nbsp;

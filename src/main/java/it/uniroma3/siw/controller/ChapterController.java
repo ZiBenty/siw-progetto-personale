@@ -67,6 +67,15 @@ public class ChapterController {
 		return "chapterForm.html";
 	}
 	
+	//ritorna i capitoli della storia di un personaggio
+	@GetMapping("/chapters/{charId}")
+	public String getCharStory(@PathVariable("charId") Long charId, Model model) {
+		OCharacter character = this.characterService.findById(charId);
+		model.addAttribute("character", character);
+		model.addAttribute("listChapters", character.getStory());
+		return "characterChapters.html";
+	}
+	
 	//richiede il capitolo con lo specifico id
 	@GetMapping("/chapter/{id}")
 	public String getChapter(@PathVariable("id") Long id, Model model) {
@@ -78,8 +87,9 @@ public class ChapterController {
 	@GetMapping("chapter/delete/{id}")
 	public String deleteChapter(@PathVariable("id") Long id, Model model) {
 		Chapter chapter = this.chapterService.findById(id);
+		Long charId = chapter.getCharacter().getId();
 		chapter.getCharacter().removeChapter(chapter);
 		this.chapterService.deleteById(id);
-		return "redirect:/character/" + chapter.getCharacter().getId();
+		return "redirect:/character/" + charId;
 	}
 }

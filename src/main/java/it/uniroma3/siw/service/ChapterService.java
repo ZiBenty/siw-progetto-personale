@@ -1,13 +1,14 @@
 package it.uniroma3.siw.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw.model.Chapter;
+import it.uniroma3.siw.model.OCharacter;
 import it.uniroma3.siw.repository.ChapterRepository;
 
 @Service
@@ -35,11 +36,15 @@ public class ChapterService {
 		return this.chapterRepository.findById(id).get();
 	}
 	
-	public List<Chapter> findAll(){
-		List<Chapter> allChapters = new ArrayList<Chapter>();
+	public Set<Chapter> findAll(){
+		Set<Chapter> allChapters = new HashSet<Chapter>();
 		for (Chapter c: this.chapterRepository.findAll()) {
 			allChapters.add(c);
 		}
 		return allChapters;
+	}
+	
+	public Set<Chapter> findByCharacter(OCharacter character){
+		return this.chapterRepository.findByCharacter(character);
 	}
 }

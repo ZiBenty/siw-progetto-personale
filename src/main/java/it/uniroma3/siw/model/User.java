@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +21,7 @@ public class User {
 	private String name;
 	private String surname;
 	private Boolean banned = false;
-	private String lol;
+	
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	List<OCharacter> characters = new ArrayList<OCharacter>();
 	

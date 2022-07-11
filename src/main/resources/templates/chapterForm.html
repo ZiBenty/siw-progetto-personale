@@ -15,8 +15,10 @@
 			<span>Titolo:<input type="text" th:field="*{title}" required /></span>
 			<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
 		</div>
+		<br>
 		<div>
-			<span>Storia:<input type="text" th:field="*{content}" /></span>
+		    <div>Storia:</div>
+			<textarea name="news_content" rows="10" cols="80" th:field="*{content}" />
 		</div>
 		<div>
 			<span><button class="btn btn-primary" type="submit">Conferma</button></span>

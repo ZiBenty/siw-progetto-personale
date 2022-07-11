@@ -1,7 +1,7 @@
 package it.uniroma3.siw.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,7 +36,7 @@ public class OCharacter {
 	private User user;
 	
 	@OneToMany(mappedBy = "character", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-	private List<Chapter> story = new ArrayList<Chapter>();
+	private Set<Chapter> story = new HashSet<Chapter>();
 
 	public Long getId() {
 		return id;
@@ -85,15 +85,15 @@ public class OCharacter {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public List<Chapter> getStory() {
+	
+	public Set<Chapter> getStory() {
 		return story;
 	}
 
-	public void setStory(List<Chapter> story) {
+	public void setStory(Set<Chapter> story) {
 		this.story = story;
 	}
-	
+
 	@Transient
     public String getPicImagePath(Long userId) {
         if (pic == null || userId == null) return null;

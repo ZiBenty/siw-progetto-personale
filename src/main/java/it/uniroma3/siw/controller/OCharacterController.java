@@ -131,6 +131,14 @@ public class OCharacterController {
 		return "userCharacters.html";
 	}
 	
+	//DA IMPLEMENTARE
+	//richiede la lista di tutti i personaggi pubblici creati sul server
+	@GetMapping("/characters")
+	public String getOCharacters(Model model) {
+		model.addAttribute("listCharacter", this.characterService.findAll());
+		return "characters.html";
+	}
+	
 	@GetMapping("/character/delete/{id}")
 	public String deleteOCharacter(@PathVariable("id") Long id, Model model){
 		OCharacter character = this.characterService.findById(id);

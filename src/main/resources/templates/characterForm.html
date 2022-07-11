@@ -12,14 +12,21 @@
 		</div>
 		<input type="hidden" th:field="*{id}" th:value="${character.id}" />
 		<div>
-			<span>Nome:<input type="text" th:field="*{name}"  /></span>
+		    <div>Nome:</div>
+			<input type="text" th:field="*{name}"  />
 			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 		</div>
 		<div>
-			<span>Descrizione:<input type="text" th:field="*{description}" /></span>
+		    <div>Descrizione:</div>
+			<textarea name="news_content" rows="10" cols="80" th:field="*{description}" />
 		</div>
 		<div>
-			<span>Immagine:<input type="file" name="image" accept="image/png, image/jpeg, image/jpg" /></span>
+			<div>Immagine:</div>
+			<input type="file" name="image" accept="image/png, image/jpeg, image/jpg" />
+		</div>
+		<div>
+		    Rendere il personaggio pubblico?:
+		    <input type="checkbox" th:field="*{privateChr}" th:checked="*{privateChr}" />
 		</div>
 		<div>
 			<span><button class="btn btn-primary" type="submit">Conferma</button></span>

@@ -15,17 +15,17 @@
 	        <img class="h-100" th:src="@{${image}} " />
 	    </div>
 	    <h4>Storia</h4>
-	    <div th:if="${not #lists.isEmpty(listChapters)}">
-	        <ul th:each:"chapter : ${listChapters}">
-	            <li>
-	                <a th:href="@{'/chapter/' + ${chapter?.id}}" th:text="${chapter?.title}" />
-	                <a class="btn btn-success" th:href="@{'/chapter/edit/' + ${chapter?.id}}">Modifica</a>
-		            &nbsp;
-		            <a class="btn btn-danger" th:href="@{'/chapter/delete/' + ${chapter?.id}}">Cancella</a>
-		        </li>
-	        </ul>
+	    <div th:if="${not #lists.isEmpty(character.story)}">
+	        <ol>
+	    <li th:each="chapter : ${listChapters}">
+	        <a th:href="@{'/chapter/' + ${chapter?.id}}" th:text="${chapter?.title}" />
+	        <a class="btn btn-success" th:href="@{'/chapter/edit/' + ${chapter?.id}}">Modifica</a>
+		    &nbsp;
+		    <a class="btn btn-danger" th:href="@{'/chapter/delete/' + ${chapter?.id}}">Cancella</a>
+		</li>
+    </ol>
 		</div>
-		<div th:unless="${not #lists.isEmpty(listChapters)}">
+		<div th:unless="${not #lists.isEmpty(character.story)}">
 		    <h5>Nessuno capitolo scritto</h5>
 		</div>
 		<div>
