@@ -44,6 +44,15 @@ public class OCharacterService {
 		}
 		return allCharacters;
 	}
+	
+	public List<OCharacter> findAllPublic(){
+		List<OCharacter> allCharacters = new ArrayList<OCharacter>();
+		for (OCharacter c: this.characterRepository.findAll()) {
+			if(c.isPrivateChr())
+				allCharacters.add(c);
+		}
+		return allCharacters;
+	}
 
 	public void delete(OCharacter character) {
 		this.characterRepository.delete(character);

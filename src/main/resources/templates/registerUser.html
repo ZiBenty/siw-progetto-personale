@@ -22,20 +22,6 @@
                 th:errors="${credentials.password}" th:style="'color:red'"></td>
         </tr>
         <tr>
-            <td>Nome</td>
-            <td><input type="text" placeholder="name" required
-                       th:field="${user.name}"/></td>
-            <td th:if="${#fields.hasErrors('user.name')}"
-                th:errors="${user.name}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td>Cognome</td>
-            <td><input type="text" placeholder="surname" required
-                       th:field="${user.surname}"/></td>
-            <td th:if="${#fields.hasErrors('user.surname')}"
-                th:errors="${user.surname}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
             <td>
                 <button type="submit">Registra</button>
             </td>
@@ -43,6 +29,5 @@
     </table>
 	</form>
 	</div>
-    <footer th:replace="fragments/base.html :: fondo(home='/')"></footer>
 </body>
 </html>

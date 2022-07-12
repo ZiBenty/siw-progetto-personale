@@ -10,15 +10,17 @@
 	<title th:text="${title}"></title>
 	<style>
         body {
+	        --text-color: rgb(255, 255, 255);
 	        background-image: url("/images/background.jpg");
 	        height:100%;
         	background-position: center;
             background-size: fill;
-            color:white;
+            color:var(--text-color);
             font-family: Rockwell;
         }
         div.backgroundContainer {
 	        background-color: rgba(128, 128, 192, .5);
+	        padding:10px;
         }
         header.loginHeader {
 	        background-color: rgb(128, 128, 192, .8);
@@ -26,6 +28,19 @@
         header.loginHeader button{
 	        color:rgb(255, 255, 255);
 	        background-color: rgb(128, 0, 255);
+        }
+        div.characterContainer {
+	        width: 200px;
+	        height: auto;
+	        padding-top: 5px;
+        }
+        a.characterList {
+	        color:var(--text-color);
+	        text-decoration: none;
+	        margin:5px;
+        }
+        a.characterList:hover {
+	        box-shadow: 0px 2px 5px 5px rgb(128, 128, 255);
         }
     </style>
 </head>
@@ -38,11 +53,11 @@
             <form th:action="@{/login}" method="POST">
 			    <span>
 			        Username:
-			    	<input style="width: 25%;" class="rounded-3"s name="username" type="text" />
+			    	<input style="width: 25%;" class="rounded-3"s name="username" type="text" required />
 			    </span>		
 			    <span>
 				    Password:
-				    <input style="width: 25%;" class="rounded-3" name="password" type="password" />
+				    <input style="width: 25%;" class="rounded-3" name="password" type="password" required />
 			    </span>
 			    <span>
 			    	<button class="rounded-3" type="submit">Login</button>

@@ -9,8 +9,26 @@
     	    originali con utenti da tutto il mondo.</p>
     </div>
     <br>
-    <div class="backgroundContainer container d-flex flex-column justify-content-center align-items-center border border-2 rounded-3">
+    <th:block sec:authorize="!isAuthenticated()">
+        <div class="backgroundContainer container d-flex flex-column justify-content-center align-items-center border border-2 rounded-3">
+    	    <h5 style="text-align: center;">Crea subito un nuovo account per esplorare nuove idee!</h5>
+        </div>
+    </th:block>
+    <th:block sec:authorize="isAuthenticated()">
+        <div class="backgroundContainer container d-flex flex-column justify-content-center align-items-center border border-2 rounded-3">
     	    <h5 style="text-align: center;">Dai un'occhiata ai nuovi personaggi creati questa settimana</h5>
-    </div>
+    	    <div class="container d-flex flex-row flex-wrap">
+    	        <th:block th:each=" character : ${listCharacter}">
+    	            <a class="characterList" th:href="@{'/character/' + ${character.id}}">
+    	                <div class="characterContainer container border border-1 rounded-3">
+    	                    <h5 th:text="${character.name}" style="display:inline;" />
+    	                    <img class="img-fluid" th:src="@{'/user-pics/' + ${character.user.id} + '/' + ${character.pic}} " />
+    	                    <h6 th:text="'created by ' + ${character.user.name}" />
+    	                </div>
+    	            </a>
+    	        </th:block>
+    	    </div>
+        </div>
+    </th:block>
 </body>
 </html>

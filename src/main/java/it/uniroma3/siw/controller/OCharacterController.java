@@ -3,6 +3,7 @@ package it.uniroma3.siw.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Calendar;
 
 import javax.validation.Valid;
 
@@ -64,6 +65,7 @@ public class OCharacterController {
 					String fileName = saveAndGetFileName(userId, multipartFile);
 					character.setPic(fileName);
 				}
+				character.setCreationDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 				this.characterService.save(character);
 				model.addAttribute("character", character);
 			} else { //personaggio modificato

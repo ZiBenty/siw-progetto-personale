@@ -1,5 +1,7 @@
 package it.uniroma3.siw.model;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Chapter {
@@ -21,6 +25,9 @@ public class Chapter {
 	@NotBlank
 	@Column(nullable = false)
 	private String content;
+	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date creationDate;
 	
 	@ManyToOne
 	private OCharacter character;
@@ -47,6 +54,14 @@ public class Chapter {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public OCharacter getCharacter() {

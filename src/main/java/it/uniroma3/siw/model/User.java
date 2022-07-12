@@ -19,8 +19,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
-	private String surname;
-	private Boolean banned = false;
+	private boolean banned = false;
 	
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	List<OCharacter> characters = new ArrayList<OCharacter>();
@@ -44,19 +43,11 @@ public class User {
 		this.name = name;
 	}
 
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public Boolean getBanned() {
+	public boolean getBanned() {
 		return banned;
 	}
 
-	public void setBanned(Boolean banned) {
+	public void setBanned(boolean banned) {
 		this.banned = banned;
 	}
 

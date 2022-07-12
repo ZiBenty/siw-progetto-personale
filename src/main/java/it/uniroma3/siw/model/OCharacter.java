@@ -1,7 +1,8 @@
 package it.uniroma3.siw.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
@@ -30,13 +33,17 @@ public class OCharacter {
 	
 	private String pic;
 	
+	//false=privato, true=pubblico
 	private boolean privateChr = false;
+	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date creationDate;
 	
 	@ManyToOne
 	private User user;
 	
 	@OneToMany(mappedBy = "character", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-	private Set<Chapter> story = new HashSet<Chapter>();
+	private List<Chapter> story = new ArrayList<Chapter>();
 
 	public Long getId() {
 		return id;
@@ -78,6 +85,14 @@ public class OCharacter {
 		this.privateChr = privateChr;
 	}
 
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -86,11 +101,11 @@ public class OCharacter {
 		this.user = user;
 	}
 	
-	public Set<Chapter> getStory() {
+	public List<Chapter> getStory() {
 		return story;
 	}
 
-	public void setStory(Set<Chapter> story) {
+	public void setStory(List<Chapter> story) {
 		this.story = story;
 	}
 

@@ -1,5 +1,7 @@
 package it.uniroma3.siw.controller;
 
+import java.util.Calendar;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ public class ChapterController {
 		if(!bindingResult.hasErrors()) {
 			if(chapter.getId() == null) {
 				character.addChapter(chapter);
+				chapter.setCreationDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
 				this.chapterService.save(chapter);
 				model.addAttribute("chapter", chapter);
 			} else {
