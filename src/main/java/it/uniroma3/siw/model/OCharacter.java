@@ -20,7 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-public class OCharacter {
+public class OCharacter implements Comparable<OCharacter>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -124,5 +124,10 @@ public class OCharacter {
 	public void removeChapter(Chapter chapter) {
 		this.story.remove(chapter);
 		chapter.setCharacter(null);
+	}
+
+	@Override
+	public int compareTo(OCharacter o) {
+		return this.creationDate.compareTo(o.getCreationDate());
 	}
 }

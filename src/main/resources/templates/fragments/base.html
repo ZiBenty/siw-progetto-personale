@@ -25,7 +25,7 @@
         header.loginHeader {
 	        background-color: rgb(128, 128, 192, .8);
         }
-        header.loginHeader button{
+        button.siteButton{
 	        color:rgb(255, 255, 255);
 	        background-color: rgb(128, 0, 255);
         }
@@ -47,24 +47,20 @@
 <body>
     <header th:fragment="headerUser" class="loginHeader alert d-flex justify-content-end" style="font-size:90%">
         <form class="me-auto" th:action="@{/}" method="GET">
-            <button class="rounded-3" type="submit"><h4>Homepage<h4></button>
+            <button class="rounded-3 siteButton" type="submit"><h4>Homepage<h4></button>
         </form>
         <th:block sec:authorize="!isAuthenticated()">
             <form th:action="@{/login}" method="POST">
 			    <span>
 			        Username:
 			    	<input style="width: 25%;" class="rounded-3"s name="username" type="text" required />
-			    </span>		
-			    <span>
 				    Password:
 				    <input style="width: 25%;" class="rounded-3" name="password" type="password" required />
-			    </span>
-			    <span>
-			    	<button class="rounded-3" type="submit">Login</button>
+			    	<button class="rounded-3 siteButton" type="submit">Accedi</button>
 			    </span>
 	        </form>
 	        <form th:action="@{/register}" method="GET">
-	            <span>Oppure <span>&nbsp;&nbsp;&nbsp;<button class="rounded-3" type="submit">Registrati</button></span></span>
+	            <span>Oppure <span>&nbsp;&nbsp;&nbsp;<button class="rounded-3 siteButton" type="submit">Registrati</button></span></span>
 	        </form>
         </th:block>
         <th:block sec:authorize="isAuthenticated()">
@@ -89,7 +85,7 @@
             </a>
             &nbsp;&nbsp;
             <form th:action="@{/logout}" method="POST">
-                <span><button class="rounded-3" type="submit">Logout</button></span>
+                <span><button class="rounded-3 siteButton" type="submit">Logout</button></span>
             </form>
         </th:block> 
     </header>

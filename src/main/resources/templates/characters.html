@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base.html :: headerfiles(title='Multivertopia')"> </head>
+<body class="bg-image">
+    <header th:replace="fragments/base.html :: headerUser"></header>
+    <div class="backgroundContainer container d-flex flex-column justify-content-center align-items-center border border-2 rounded-3">
+    	    <h5 style="text-align: center;">Filtra i personaggi secondo vari criteri di ricerca:</h5>
+    	    <form th:action="@{/characters/filter}" method="GET">
+			    <span>
+			        Nome:
+			    	<input style="width: 25%;" class="rounded-3" th:value="${name}" name="name" type="text" />
+				    Ordine:
+				    <select style="width: 25%;" class="rounded-3" th:value="${order}" name="order">
+				        <option value="ascend">(A - Z)</option>
+				        <option value="descend">(Z - A)</option>
+				        <option value="newer">Più recente</option>
+				        <option value="older">Meno recente</option>
+				    </select>
+				    Creati:
+				    <select style="width: 25%;" class="rounded-3" th:value="${creationTime}" name="creationTime">
+				        <option value="today">Oggi</option>
+				        <option value="week">Questa settimana</option>
+				        <option value="month">Questo mese</option>
+				        <option value="all">Da sempre</option>
+				    </select>
+			    	<button class="rounded-3 siteButton" type="submit">Filtra</button>
+			    </span>
+	        </form>
+    	    <div class="container d-flex flex-row flex-wrap">
+    	        <th:block th:each=" character : ${listCharacter}">
+    	            <a class="characterList" th:href="@{'/character/' + ${character.id}}">
+    	                <div class="characterContainer container border border-1 rounded-3">
+    	                    <h5 th:text="${character.name}" style="display:inline;" />
+    	                    <img class="img-fluid" th:src="@{'/user-pics/' + ${character.user.id} + '/' + ${character.pic}} " />
+    	                    <h6 th:text="'created by ' + ${character.user.name}" />
+    	                </div>
+    	            </a>
+    	        </th:block>
+    	    </div>
+        </div>
+</body>
+</html>

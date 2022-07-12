@@ -3,7 +3,11 @@ package it.uniroma3.siw.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -25,6 +29,7 @@ import it.uniroma3.siw.controller.validator.OCharacterValidator;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.OCharacter;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.model.comparator.OCharacterComparator;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.OCharacterService;
 import it.uniroma3.siw.service.UserService;
@@ -133,12 +138,84 @@ public class OCharacterController {
 		return "userCharacters.html";
 	}
 	
-	//DA IMPLEMENTARE
 	//richiede la lista di tutti i personaggi pubblici creati sul server
 	@GetMapping("/characters")
 	public String getOCharacters(Model model) {
-		model.addAttribute("listCharacter", this.characterService.findAll());
+		model.addAttribute("listCharacter", this.characterService.findAllPublic());
 		return "characters.html";
+	}
+	
+	//ritorna la lista filtrata e ordinata secondo i parametri del modello
+	@SuppressWarnings("deprecation")
+	@GetMapping("/characters/filter")
+	public String filterOCharacters(@RequestParam String name, 
+			                        @RequestParam String order,
+			                        @RequestParam String creationTime, 
+			                        Model model) {
+		//filtra per l'attributo name e se è stato creato entro creationTime
+		List<OCharacter> filteredChars = new ArrayList<OCharacter>();
+		for(OCharacter c : this.characterService.findAllPublic()) {
+			if(c.getName().toLowerCase().contains(name.toLowerCase()))
+				switch(creationTime) {
+				case "today":
+					if(c.getCreationDate().getDay() - new Date().getDay() == 0)
+						filteredChars.add(c);
+					break;
+				case "week":
+					Date today = new Date();
+					Date chr = c.getCreationDate();
+					if(chr.getMonth() == today.getMonth()) {
+						if(today.getDay() - chr.getDay() < 8)
+							filteredChars.add(c);
+					}
+					else {
+						//febbraio
+						if(chr.getMonth() == 1) {
+							if(28 - chr.getDay() + today.getDay() < 8)
+								filteredChars.add(c);
+							break;
+						//mesi 30 giorni
+						} else if (chr.getMonth() == 3 || chr.getMonth() == 5 ||
+								chr.getMonth() == 8 || chr.getMonth() == 10) {
+							if(30 - chr.getDay() + today.getDay() < 8)
+								filteredChars.add(c);
+							break;
+						//mesi 31 giorni
+						} else {
+							if(31 - chr.getDay() + today.getDay() < 8)
+								filteredChars.add(c);
+							break;
+						}
+					}
+					break;
+				case "month":
+					if(c.getCreationDate().getMonth() == new Date().getMonth())
+						filteredChars.add(c);
+					break;
+				case "all":
+					filteredChars.add(c);
+					break;
+				}
+		}
+		//ordina la lista secondo l'order scelto
+		switch (order) {
+		case "ascend":
+			Collections.sort(filteredChars,new OCharacterComparator());
+			break;
+		case "descend":
+			Collections.sort(filteredChars,new OCharacterComparator());
+			Collections.reverse(filteredChars);
+			break;
+		case "newer":
+			Collections.sort(filteredChars);
+			break;
+		case "older":
+			Collections.sort(filteredChars);
+			Collections.reverse(filteredChars);
+			break;
+		}
+		model.addAttribute("listCharacter", filteredChars);
+				return "characters.html";
 	}
 	
 	@GetMapping("/character/delete/{id}")
