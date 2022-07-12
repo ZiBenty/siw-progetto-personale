@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/base.html :: headerfiles(title='Registra Utente')"> </head>
 <body>
+    <header th:replace="fragments/base.html :: headerUser"></header>
 	<div>
     	<h4>Registrazione</h4>
 	<form th:action="@{/register}" method="POST">

@@ -9,12 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
- 
- 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         exposeDirectory("user-pics", registry);
-        exposeDirectory("src/main/java/resources/static", registry);
+        exposeDirectory("static/images", registry);
     }
      
     private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
@@ -23,6 +21,6 @@ public class MvcConfig implements WebMvcConfigurer {
          
         if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
          
-        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
+        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/").setCachePeriod(0);
     }
 }

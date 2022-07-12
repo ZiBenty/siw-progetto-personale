@@ -15,28 +15,68 @@
         	background-position: center;
             background-size: fill;
             color:white;
+            font-family: Rockwell;
+        }
+        div.backgroundContainer {
+	        background-color: rgba(128, 128, 192, .5);
+        }
+        header.loginHeader {
+	        background-color: rgb(128, 128, 192, .8);
+        }
+        header.loginHeader button{
+	        color:rgb(255, 255, 255);
+	        background-color: rgb(128, 0, 255);
         }
     </style>
 </head>
 <body>
-    <header th:fragment="headerUser" class="alert alert-primary d-flex justify-content-end" style="font-size:90%">
-        <form th:action="@{/login}" method="POST">
-			<span>
-				Username:
-				<input name="username" type="text" required />
-			</span>		
-			<span>
-				Password:
-				<input name="password" type="password" required />
-			</span>
-			<span>
-				<button type="submit">Login</button>
-			</span>
-	    </form>&nbsp;&nbsp;&nbsp;
-	    <span>Oppure <span><a href="/register">Registrati</a></span></span>
+    <header th:fragment="headerUser" class="loginHeader alert d-flex justify-content-end" style="font-size:90%">
+        <form class="me-auto" th:action="@{/}" method="GET">
+            <button class="rounded-3" type="submit"><h4>Homepage<h4></button>
+        </form>
+        <th:block sec:authorize="!isAuthenticated()">
+            <form th:action="@{/login}" method="POST">
+			    <span>
+			        Username:
+			    	<input style="width: 25%;" class="rounded-3"s name="username" type="text" />
+			    </span>		
+			    <span>
+				    Password:
+				    <input style="width: 25%;" class="rounded-3" name="password" type="password" />
+			    </span>
+			    <span>
+			    	<button class="rounded-3" type="submit">Login</button>
+			    </span>
+	        </form>
+	        <form th:action="@{/register}" method="GET">
+	            <span>Oppure <span>&nbsp;&nbsp;&nbsp;<button class="rounded-3" type="submit">Registrati</button></span></span>
+	        </form>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+            <th:block sec:authorize="hasAuthority('ADMIN')">
+                <p style="text-align: center;" th:text="'Bentornato, admin ' + ${#authentication.getPrincipal().getUsername()}"></p>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </th:block>
+            <th:block sec:authorize="!hasAuthority('ADMIN')">
+                <p style="text-align: center;" th:text="'Bentornato, ' + ${#authentication.getPrincipal().getUsername()}"></p>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </th:block>
+            <a th:href="@{/characters}" title="Cerca un personaggio">
+                <img style="height: 30px; width:30px;" th:src="@{/images/search-icon.png}" />
+            </a>
+            &nbsp;&nbsp;
+            <a th:href="@{/character/new}" title="Crea un nuovo personaggio">
+                <img style="height: 30px; width:30px;" th:src="@{/images/add-char.png}" />
+            </a>
+            &nbsp;&nbsp;
+            <a th:href="@{/home}" title="Mostra profilo utente">
+                <img style="height: 30px; width:30px;" th:src="@{/images/user-icon1.png}"/>
+            </a>
+            &nbsp;&nbsp;
+            <form th:action="@{/logout}" method="POST">
+                <span><button class="rounded-3" type="submit">Logout</button></span>
+            </form>
+        </th:block> 
     </header>
-	<footer th:fragment="fondo(home)">
-		<a th:href="@{${home}}">Home</a>
-	</footer>
 </body>
 </html>

@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head th:replace="fragments/base.html :: headerfiles(title='SIW')"> </head>
 <body>
+    <header th:replace="fragments/base.html :: headerUser"></header>
     <div>
-    	<h4 th:text="#{header.menuUtente}">Menu</h4>
+    	<h4>Menu</h4>
 		<div>
 			<a th:href="@{/character}">Crea Personaggio</a>
    		</div>
@@ -15,6 +16,5 @@
    		</div>
    		
     </div>
-    <footer th:replace="fragments/base.html :: fondo(home='/default')"></footer>
 </body>
 </html>

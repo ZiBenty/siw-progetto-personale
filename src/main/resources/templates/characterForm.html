@@ -4,6 +4,7 @@
 <head th:replace="fragments/base.html :: headerfiles(title='OC Universe')"> </head>
 
 <body>
+    <header th:replace="fragments/base.html :: headerUser"></header>
 	<h1 th:text="'Crea un nuovo personaggio'"></h1>
 	
 	<form th:action="@{'/character/' + ${user.id}}" method="POST" th:object="${character}" enctype="multipart/form-data">

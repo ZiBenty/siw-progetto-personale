@@ -4,6 +4,7 @@
 <head th:replace="fragments/base.html :: headerfiles(title='Catering Service')"> </head>
 
 <body>
+<header th:replace="fragments/base.html :: headerUser"></header>
 <h4 th:text="'Personaggi Creati'"></h4>
 <table class="table">
 <thead>
@@ -32,7 +33,6 @@
 	</tr>
 </tbody>
 </table>
-<footer th:replace="fragments/base.html :: fondo(home='/default')"></footer>
 </body>
 
 </html>

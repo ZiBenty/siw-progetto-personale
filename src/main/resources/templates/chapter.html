@@ -4,6 +4,7 @@
 <head th:replace="fragments/base.html :: headerfiles(title='Catering Service')"> </head>
 
 <body>
+    <header th:replace="fragments/base.html :: headerUser"></header>
 		<div class="border">
 			<h4 th:text="${chapter.title}"></h4>
 			<a th:href="@{'/chapter/edit/' + ${chapter.id}}">Modifica</a>
@@ -14,7 +15,6 @@
 	        <th:block th:text="${chapter.content}"></th:block>
 		</div>
 	</div>
-	<footer th:replace="fragments/base.html :: fondo(home='/default')"></footer>
 </body>
 
 </html>

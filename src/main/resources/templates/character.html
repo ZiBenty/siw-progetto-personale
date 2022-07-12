@@ -4,6 +4,7 @@
 <head th:replace="fragments/base.html :: headerfiles(title='Catering Service')"> </head>
 
 <body>
+    <header th:replace="fragments/base.html :: headerUser"></header>
 		<div class="border">
 			<h4 th:text="${character.name}"></h4>
 			<span th:text="${character.description}"></span>
@@ -32,7 +33,6 @@
 			<a th:href="@{'/chapter/new/' + ${character.id}}">Scrivi un nuovo capitolo della sua storia</a>
    		</div>
 	</div>
-	<footer th:replace="fragments/base.html :: fondo(home='/default')"></footer>
 </body>
 
 </html>
