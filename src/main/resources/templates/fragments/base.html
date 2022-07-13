@@ -34,13 +34,24 @@
 	        height: auto;
 	        padding-top: 5px;
         }
+        div.chapterContainer {
+	        width: 200px;
+	        height: auto;
+	        padding: 5px;
+	        margin: 5px;
+        }
         a.characterList {
 	        color:var(--text-color);
 	        text-decoration: none;
 	        margin:5px;
         }
         a.characterList:hover {
-	        box-shadow: 0px 2px 5px 5px rgb(128, 128, 255);
+	        box-shadow: 0px 2px 5px 5px rgba(128, 128, 255, .4);
+        }
+        a.chapterList {
+	        color:var(--text-color);
+	        text-decoration: none;
+	        margin:5px;
         }
     </style>
 </head>
@@ -53,7 +64,7 @@
             <form th:action="@{/login}" method="POST">
 			    <span>
 			        Username:
-			    	<input style="width: 25%;" class="rounded-3"s name="username" type="text" required />
+			    	<input style="width: 25%;" class="rounded-3" name="username" type="text" required />
 				    Password:
 				    <input style="width: 25%;" class="rounded-3" name="password" type="password" required />
 			    	<button class="rounded-3 siteButton" type="submit">Accedi</button>

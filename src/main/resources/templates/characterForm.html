@@ -5,8 +5,9 @@
 
 <body>
     <header th:replace="fragments/base.html :: headerUser"></header>
-	<h1 th:text="'Crea un nuovo personaggio'"></h1>
 	
+	<div class="backgroundContainer container-fluid border border-2 rounded-3">
+	<h1 th:text="'Crea un nuovo personaggio'"></h1>
 	<form th:action="@{'/character/' + ${user.id}}" method="POST" th:object="${character}" enctype="multipart/form-data">
 		<div th:if="${#fields.hasGlobalErrors()}">
 			  <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
@@ -14,12 +15,13 @@
 		<input type="hidden" th:field="*{id}" th:value="${character.id}" />
 		<div>
 		    <div>Nome:</div>
-			<input type="text" th:field="*{name}"  />
+			<input class="rounded-3" type="text" th:field="*{name}"  />
 			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 		</div>
 		<div>
 		    <div>Descrizione:</div>
-			<textarea name="news_content" rows="10" cols="80" th:field="*{description}" />
+			<textarea class="rounded-5" name="news_content" rows="10" cols="80" th:field="*{description}" />
+			<div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
 		</div>
 		<div>
 			<div>Immagine:</div>
@@ -30,9 +32,10 @@
 		    <input type="checkbox" th:field="*{privateChr}" th:checked="*{privateChr}" />
 		</div>
 		<div>
-			<span><button class="btn btn-primary" type="submit">Conferma</button></span>
+			<span><button class="rounded-3 siteButton" type="submit">Conferma</button></span>
 		</div>
 	</form>
+	</div>
 </body>
 
 </html>

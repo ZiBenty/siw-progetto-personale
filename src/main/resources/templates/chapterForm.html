@@ -5,26 +5,28 @@
 
 <body>
     <header th:replace="fragments/base.html :: headerUser"></header>
+    <div class="backgroundContainer container-fluid border border-2 rounded-3">
 	<h1 th:text="'Aggiungi un nuovo capitolo alla storia di ' + ${character.name}"></h1>
-	
 	<form th:action="@{'/chapter/' + ${character.id}}" method="POST" th:object="${chapter}">
 		<div th:if="${#fields.hasGlobalErrors()}">
 			  <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 		</div>
 		<input type="hidden" th:field="*{id}" th:value="${chapter.id}" />
 		<div>
-			<span>Titolo:<input type="text" th:field="*{title}" required /></span>
+			<span>Titolo:<input class="rounded-3" type="text" th:field="*{title}" required /></span>
 			<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
 		</div>
 		<br>
 		<div>
 		    <div>Storia:</div>
-			<textarea name="news_content" rows="10" cols="80" th:field="*{content}" />
+			<textarea class="rounded-3" name="news_content" rows="10" cols="80" th:field="*{content}" />
+			<div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
 		</div>
 		<div>
-			<span><button class="btn btn-primary" type="submit">Conferma</button></span>
+			<span><button class="rounded-3 siteButton" type="submit">Conferma</button></span>
 		</div>
 	</form>
+    </div>
 </body>
 
 </html>

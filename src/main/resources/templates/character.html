@@ -5,33 +5,63 @@
 
 <body>
     <header th:replace="fragments/base.html :: headerUser"></header>
-		<div class="border">
-			<h4 th:text="${character.name}"></h4>
-			<span th:text="${character.description}"></span>
-			<a th:href="@{'/character/edit/' + ${character.id}}">Modifica</a>
-		    &nbsp;
-			<a th:href="@{'/character/delete/' + ${character.id}}">Cancella</a>
-		</div>
+	<div class="backgroundContainer container-fluid d-flex flex-row  border border-2 rounded-3">
 	    <div style="height:300px">
-	        <img class="h-100" th:src="@{${image}} " />
+            <img class="h-100" th:src="@{${image}} " />
+        </div>
+        <div class="d-flex flex-column w-100">
+		    <div class="d-flex flex-row ">
+		    &nbsp;&nbsp;
+		        <h4 th:text="${character.name}"></h4>
+		        <th:block th:if="${character.privateChr}">
+                    <img title="Personaggio pubblico" style="height: 30px; width:30px;" th:src="@{/images/public-on.png}" />
+		        </th:block>
+		        <th:block th:unless="${character.privateChr}">
+		            <img title="Personaggio privato" style="height: 30px; width:30px;" th:src="@{/images/public-off.png}" />
+		        </th:block>
+		        <div class="ms-auto" th:if="${user.id} == ${character.user.id} or ${#authentication.getPrincipal().getAuthorities()[0].getAuthority() == 'ADMIN'}">
+		            <a th:href="@{'/character/edit/' + ${character.id}}" title="Modifica il personaggio">
+                        <img style="height: 25px; width:25px;" th:src="@{/images/edit-icon.png}" />
+                    </a>
+                    &nbsp;&nbsp;
+                    <a th:href="@{'/character/edit/' + ${character.id}}" title="Cancella il personaggio">
+                        <img style="height: 25px; width:25px;" th:src="@{/images/delete-icon.png}" />
+                    </a>
+		        </div>
+	        </div>
+	        <p class="m-2" th:text="${character.description}"></p>
 	    </div>
-	    <h4>Storia</h4>
-	    <div th:if="${not #lists.isEmpty(character.story)}">
-	        <ol>
-	    <li th:each="chapter : ${listChapters}">
-	        <a th:href="@{'/chapter/' + ${chapter?.id}}" th:text="${chapter?.title}" />
-	        <a class="btn btn-success" th:href="@{'/chapter/edit/' + ${chapter?.id}}">Modifica</a>
-		    &nbsp;
-		    <a class="btn btn-danger" th:href="@{'/chapter/delete/' + ${chapter?.id}}">Cancella</a>
-		</li>
-    </ol>
-		</div>
-		<div th:unless="${not #lists.isEmpty(character.story)}">
+	</div>
+    <div class="backgroundContainer container-fluid border border-2 rounded-3">
+	    <div class="d-flex flex-row">
+		    <h4>Storia</h4>
+		    &nbsp;&nbsp;
+		    <a th:href="@{'/chapter/new/' + ${character.id}}" title="Scrivi un nuovo capitolo della storia" th:if="${user.id} == ${character.user.id} or ${#authentication.getPrincipal().getAuthorities()[0].getAuthority() == 'ADMIN'}">
+	            <img style="height: 30px; width:30px;" th:src="@{/images/write-icon.png}" />
+	        </a>
+	    </div>
+        <div class="d-flex flex-wrap" th:if="${not #lists.isEmpty(character.story)}">
+            <th:block th:each="chapter : ${listChapters}">
+                <div class="chapterContainer d-flex flex-wrap container border border-3 rounded-3">
+	                <a th:title="${chapter.title}" class="chapterList rounded-3 " th:href="@{'/chapter/' + ${chapter?.id}}">
+	                    <h5 th:text="${chapter?.title}" />
+	                    <p th:text="${#strings.substring(chapter?.content, 0, 17)} + '...'"></p>
+	                </a>
+	                <div class="ms-auto" th:if="${user.id} == ${character.user.id} or ${#authentication.getPrincipal().getAuthorities()[0].getAuthority() == 'ADMIN'}">
+	                    <a th:href="@{'/chapter/edit/' + ${chapter?.id}}" title="Modifica il capitolo">
+		                    <img style="height: 20px; width:20px;" th:src="@{/images/edit-icon.png}" />
+		                </a>
+		                &nbsp;
+		                <a th:href="@{'/chapter/delete/' + ${chapter?.id}}" title="Cancella il capitolo">
+		                    <img style="height: 20px; width:20px;" th:src="@{/images/delete-icon.png}" />
+		                </a>
+	                </div>
+                </div>
+            </th:block>
+	    </div>
+	    <div th:unless="${not #lists.isEmpty(character.story)}">
 		    <h5>Nessuno capitolo scritto</h5>
 		</div>
-		<div>
-			<a th:href="@{'/chapter/new/' + ${character.id}}">Scrivi un nuovo capitolo della sua storia</a>
-   		</div>
 	</div>
 </body>
 

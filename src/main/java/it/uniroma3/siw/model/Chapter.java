@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,6 +24,8 @@ public class Chapter {
 	private String title;
 	
 	@NotBlank
+	@Size(min = 20, message = "{Size.chapter.content.too_short}")
+	@Size(max = 10000, message = "{Size.chapter.content.too_long}")
 	@Column(nullable = false)
 	private String content;
 	

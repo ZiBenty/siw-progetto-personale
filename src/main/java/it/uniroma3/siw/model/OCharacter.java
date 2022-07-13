@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,6 +30,7 @@ public class OCharacter implements Comparable<OCharacter>{
 	@Column(nullable = false)
 	private String name;
 	
+	@Size(max = 1000, message = "{Size.character.description.too_long}")
 	private String description;
 	
 	private String pic;

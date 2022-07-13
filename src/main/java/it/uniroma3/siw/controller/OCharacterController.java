@@ -124,6 +124,10 @@ public class OCharacterController {
 		} else {
 			model.addAttribute("image", "/images/no-image.jpg");
 		}
+		//per controllare se sta visitando la pagina l'utente creatore del personaggio oppure no
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		model.addAttribute("user", credentials.getUser());
 		return "character.html";
 	}
 	
