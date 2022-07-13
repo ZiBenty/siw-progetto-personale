@@ -141,6 +141,15 @@ public class OCharacterController {
 		return "characters.html";
 	}
 	
+	@GetMapping("/favored")
+	public String getFavored(Model model) {
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		model.addAttribute("user", credentials.getUser());
+		model.addAttribute("listCharacter", credentials.getUser().getFavored());
+		return "favored.html";
+	}
+	
 	//filtra secondo i parametri passati
 	@SuppressWarnings("deprecation")
 	private List<OCharacter> filter(List<OCharacter> toFilter, 
@@ -218,6 +227,19 @@ public class OCharacterController {
 			                        Model model) {
 		model.addAttribute("listCharacter", filter(this.characterService.findAllPublic(), name, order, creationTime));
 				return "characters.html";
+	}
+	
+	//ritorna la lista filtrata dei preferiti dell'utente
+	@GetMapping("/favored/filter")
+	public String filterOCharactersFavorites(@RequestParam String name, 
+                                             @RequestParam String order,
+                                             @RequestParam String creationTime, 
+                                             Model model) {
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		model.addAttribute("user", credentials.getUser());
+		model.addAttribute("listCharacter", filter(credentials.getUser().getFavored(), name, order, creationTime));
+		return "favored.html";
 	}
 	
 	//ritorna la lista filtrata da tutti i personaggi e ordinata secondo i parametri del modello
