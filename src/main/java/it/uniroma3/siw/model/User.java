@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -17,22 +20,33 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long uid;
+	
 	private String name;
+	
 	private boolean banned = false;
 	
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	List<OCharacter> characters = new ArrayList<OCharacter>();
 	
-	@OneToMany
+	@ManyToMany
+	@JoinTable(
+			name = "users_favored", 
+	        joinColumns = @JoinColumn(
+	        		name = "user_id", 
+	        		referencedColumnName = "uid"
+	        ),
+	        inverseJoinColumns = @JoinColumn(
+	        		name = "favored_id", 
+	        		referencedColumnName = "cid"))
 	List<OCharacter> favored = new ArrayList<OCharacter>();
 
 	public Long getId() {
-		return id;
+		return uid;
 	}
 	
 	public void setId(Long id) {
-		this.id = id;
+		this.uid = id;
 	}
 	
 	public String getName() {

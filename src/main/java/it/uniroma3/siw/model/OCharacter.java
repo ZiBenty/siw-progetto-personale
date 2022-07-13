@@ -24,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class OCharacter implements Comparable<OCharacter>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long cid;
 	
 	@NotBlank
 	@Column(nullable = false)
@@ -48,11 +48,11 @@ public class OCharacter implements Comparable<OCharacter>{
 	private List<Chapter> story = new ArrayList<Chapter>();
 
 	public Long getId() {
-		return id;
+		return cid;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.cid = id;
 	}
 
 	public String getName() {

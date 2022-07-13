@@ -3,7 +3,7 @@
 <body class="bg-image">
     <header th:replace="fragments/base.html :: headerUser"></header>
     <div class="backgroundContainer container d-flex flex-column justify-content-center align-items-center border border-2 rounded-3">
-    	    <h5 style="text-align: center;" th:text="'Lista dei personaggi preferiti di ' + ${user.id}"/>
+    	    <h5 style="text-align: center;" th:text="'Lista dei personaggi preferiti di ' + ${user.name}"/>
     	    <form th:action="@{/favored/filter}" method="GET">
 			    <span>
 			        Nome:

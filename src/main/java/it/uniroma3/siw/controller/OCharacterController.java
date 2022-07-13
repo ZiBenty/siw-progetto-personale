@@ -3,10 +3,8 @@ package it.uniroma3.siw.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -29,11 +27,11 @@ import it.uniroma3.siw.controller.validator.OCharacterValidator;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.OCharacter;
 import it.uniroma3.siw.model.User;
-import it.uniroma3.siw.model.comparator.OCharacterComparator;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.OCharacterService;
 import it.uniroma3.siw.service.UserService;
 import it.uniroma3.siw.util.FileUploadUtil;
+import it.uniroma3.siw.util.FilterUtil;
 
 @Controller
 public class OCharacterController {
@@ -81,7 +79,7 @@ public class OCharacterController {
 					character.setPic(fileName);
 				}
 				this.characterService.edit(toModify, character);
-				model.addAttribute(toModify);
+				model.addAttribute("character", toModify);
 				model.addAttribute("listChapters", toModify.getStory());
 			}
 			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -150,74 +148,7 @@ public class OCharacterController {
 		return "favored.html";
 	}
 	
-	//filtra secondo i parametri passati
-	@SuppressWarnings("deprecation")
-	private List<OCharacter> filter(List<OCharacter> toFilter, 
-			String name, String order, String creationTime){
-		List<OCharacter> filteredChars = new ArrayList<OCharacter>();
-		//filtra per l'attributo name e se è stato creato entro creationTime
-		for(OCharacter c : toFilter) {
-			if(c.getName().toLowerCase().contains(name.toLowerCase()))
-				switch(creationTime) {
-				case "today":
-					if(c.getCreationDate().getDay() - new Date().getDay() == 0)
-						filteredChars.add(c);
-					break;
-				case "week":
-					Date today = new Date();
-					Date chr = c.getCreationDate();
-					if(chr.getMonth() == today.getMonth()) {
-						if(today.getDay() - chr.getDay() < 8)
-							filteredChars.add(c);
-					}
-					else {
-						//febbraio
-						if(chr.getMonth() == 1) {
-							if(28 - chr.getDay() + today.getDay() < 8)
-								filteredChars.add(c);
-							break;
-						//mesi 30 giorni
-						} else if (chr.getMonth() == 3 || chr.getMonth() == 5 ||
-								chr.getMonth() == 8 || chr.getMonth() == 10) {
-							if(30 - chr.getDay() + today.getDay() < 8)
-								filteredChars.add(c);
-							break;
-						//mesi 31 giorni
-						} else {
-							if(31 - chr.getDay() + today.getDay() < 8)
-								filteredChars.add(c);
-							break;
-						}
-					}
-					break;
-				case "month":
-					if(c.getCreationDate().getMonth() == new Date().getMonth())
-						filteredChars.add(c);
-					break;
-				case "all":
-					filteredChars.add(c);
-					break;
-				}
-		}
-		//ordina la lista secondo l'order scelto
-		switch (order) {
-		case "ascend":
-			Collections.sort(filteredChars,new OCharacterComparator());
-			break;
-		case "descend":
-			Collections.sort(filteredChars,new OCharacterComparator());
-			Collections.reverse(filteredChars);
-			break;
-		case "newer":
-			Collections.sort(filteredChars);
-			break;
-		case "older":
-			Collections.sort(filteredChars);
-			Collections.reverse(filteredChars);
-			break;
-		}
-		return filteredChars;
-	}
+	
 	
 	//ritorna la lista filtrata da tutti i personaggi e ordinata secondo i parametri del modello
 	@GetMapping("/characters/filter")
@@ -225,7 +156,7 @@ public class OCharacterController {
 			                        @RequestParam String order,
 			                        @RequestParam String creationTime, 
 			                        Model model) {
-		model.addAttribute("listCharacter", filter(this.characterService.findAllPublic(), name, order, creationTime));
+		model.addAttribute("listCharacter", new FilterUtil().filter(this.characterService.findAllPublic(), name, order, creationTime));
 				return "characters.html";
 	}
 	
@@ -238,7 +169,7 @@ public class OCharacterController {
 		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		model.addAttribute("user", credentials.getUser());
-		model.addAttribute("listCharacter", filter(credentials.getUser().getFavored(), name, order, creationTime));
+		model.addAttribute("listCharacter", new FilterUtil().filter(credentials.getUser().getFavored(), name, order, creationTime));
 		return "favored.html";
 	}
 	
@@ -259,7 +190,7 @@ public class OCharacterController {
 			toFilter = this.userService.getUser(userId).getPublicCharacters();
 		else if(userId == credentials.getUser().getId() || credentials.getRole().equals("ADMIN"))
 			toFilter = this.userService.getUser(userId).getCharacters();
-		model.addAttribute("listCharacter", filter(toFilter, name, order, creationTime));
+		model.addAttribute("listCharacter", new FilterUtil().filter(toFilter, name, order, creationTime));
 		return "home.html";
 	}
 	
@@ -285,7 +216,7 @@ public class OCharacterController {
 		}
 		character.getUser().removeCharacter(character);
 		this.characterService.delete(character);
-		return "redirect:/userCharacters";
+		return "redirect:/home";
 	}
 	
 }

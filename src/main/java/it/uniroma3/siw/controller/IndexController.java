@@ -12,6 +12,7 @@ import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.OCharacterService;
 import it.uniroma3.siw.service.UserService;
+import it.uniroma3.siw.util.FilterUtil;
 
 @Controller
 public class IndexController {
@@ -24,7 +25,7 @@ public class IndexController {
 	
 	@GetMapping("/")
 	public String index(Model model) {
-		model.addAttribute("listCharacter", this.characterService.findAllPublic());
+		model.addAttribute("listCharacter", new FilterUtil().filter(this.characterService.findAllPublic(), "", "newer", "week"));
 		return "index.html";
 	}
 	
