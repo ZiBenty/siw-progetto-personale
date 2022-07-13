@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.uniroma3.siw.model.OCharacter;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.UserRepository;
 
@@ -55,5 +56,21 @@ public class UserService {
         for(User user : iterable)
             result.add(user);
         return result;
+    }
+    
+    @Transactional
+    public void banUser(User user) {
+    	if (user.getBanned())
+    		user.setBanned(false);
+    	else
+    		user.setBanned(true);
+    }
+    
+    @Transactional
+    public void favoredHandler(User user, OCharacter character) {
+    	if (user.getFavored().contains(character))
+    		user.getFavored().remove(character);
+    	else
+    		user.getFavored().add(character);
     }
 }

@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base.html :: headerfiles(title='Multivertopia')"> </head>
+<body class="bg-image">
+    <header th:replace="fragments/base.html :: headerUser"></header>
+    <div class="backgroundContainer container d-flex flex-column justify-content-center align-items-center border border-2 rounded-3">
+    	    <h5 style="text-align: center;">Utenti iscritti su questo sito</h5>
+    	    <div class="container d-flex flex-row flex-wrap">
+    	        <th:block th:each=" user : ${listUsers}">
+	                <div class="chapterContainer d-flex flex-row align-items-center container border border-1 rounded-3">
+	                    <a class="chapterList" th:href="@{'/home/' + ${user.id}}">
+	                        <h5 th:text="${user.name}" style="display:inline;" title="Mostra pagina utente" />
+	                        <img th:if="!${user.banned}" style="height: 40px; width:40px;" th:src="@{/images/public-on.png}" title="Utente libero"/>
+	                        <img th:unless="!${user.banned}" style="height: 40px; width:40px;" th:src="@{/images/public-off.png}" title="Utente bannato" />
+	                    </a>
+	                    <div>
+			                <a th:href="@{'/admin/ban/' + ${user.id}}">
+			                    <img th:if="!${user.banned}" style="height: 25px; width:25px;" th:src="@{/images/ban-icon.png}" title="Banna l'utente selezionato" />
+			                    <img th:unless="!${user.banned}" style="height: 25px; width:25px;" th:src="@{/images/unban-icon.png}" title="Sbanna l'utente selezionato" />
+			                </a>
+	                    </div>
+	                </div>
+    	        </th:block>
+    	    </div>
+        </div>
+</body>
+</html>

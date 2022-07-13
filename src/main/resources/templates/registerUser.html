@@ -3,38 +3,38 @@
 <head th:replace="fragments/base.html :: headerfiles(title='Registra Utente')"> </head>
 <body>
     <header th:replace="fragments/base.html :: headerUser"></header>
-	<div>
+	<div class="backgroundContainer container d-flex flex-column justify-content-center align-items-center border border-2 rounded-3">
     	<h4>Registrazione</h4>
-	<form th:action="@{/register}" method="POST">
-    <table>
-        <tr>
-            <td>Username</td>
-            <td><input type="text" placeholder="username" required
-                       th:field="${credentials.username}"/></td>
-            <td th:if="${#fields.hasErrors('credentials.username')}"
-                th:errors="${credentials.username}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" placeholder="password" required
-                       th:field="${credentials.password}"/></td>
-            <td th:if="${#fields.hasErrors('credentials.password')}"
-                th:errors="${credentials.password}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td>Nome</td>
-            <td><input type="text" placeholder="name" required
-                       th:field="${user.name}"/></td>
-            <td th:if="${#fields.hasErrors('user.name')}"
-                th:errors="${user.name}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Registra</button>
-            </td>
-        </tr>
-    </table>
-	</form>
+		<form th:action="@{/register}" method="POST">
+	    <table>
+	        <tr>
+	            <td>Username</td>
+	            <td><input type="text" placeholder="username" required
+	                       th:field="${credentials.username}"/></td>
+	            <td th:if="${#fields.hasErrors('credentials.username')}"
+	                th:errors="${credentials.username}" th:style="'color:red'"></td>
+	        </tr>
+	        <tr>
+	            <td>Password</td>
+	            <td><input type="password" placeholder="password" required
+	                       th:field="${credentials.password}"/></td>
+	            <td th:if="${#fields.hasErrors('credentials.password')}"
+	                th:errors="${credentials.password}" th:style="'color:red'"></td>
+	        </tr>
+	        <tr>
+	            <td>Nome</td>
+	            <td><input type="text" placeholder="name" required
+	                       th:field="${user.name}"/></td>
+	            <td th:if="${#fields.hasErrors('user.name')}"
+	                th:errors="${user.name}" th:style="'color:red'"></td>
+	        </tr>
+	        <tr>
+	            <td>
+	                <button class="siteButton rounded-3" type="submit">Crea Account</button>
+	            </td>
+	        </tr>
+	    </table>
+		</form>
 	</div>
 </body>
 </html>

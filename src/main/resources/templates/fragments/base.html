@@ -78,6 +78,10 @@
             <th:block sec:authorize="hasAuthority('ADMIN')">
                 <p style="text-align: center;" th:text="'Bentornato, admin ' + ${#authentication.getPrincipal().getUsername()}"></p>
                 &nbsp;&nbsp;&nbsp;&nbsp;
+                <a th:href="@{/admin/users}" title="Mostra la lista degli utenti salvati sul sito">
+	                <img style="height: 30px; width:30px;" th:src="@{/images/users-icon.png}"/>
+	            </a>
+	            &nbsp;&nbsp;
             </th:block>
             <th:block sec:authorize="!hasAuthority('ADMIN')">
                 <p style="text-align: center;" th:text="'Bentornato, ' + ${#authentication.getPrincipal().getUsername()}"></p>
@@ -91,8 +95,8 @@
                 <img style="height: 30px; width:30px;" th:src="@{/images/add-char.png}" />
             </a>
             &nbsp;&nbsp;
-            <a th:href="@{/home}" title="Mostra profilo utente">
-                <img style="height: 30px; width:30px;" th:src="@{/images/user-icon1.png}"/>
+            <a th:href="@{/home}" title="Mostra personaggi creati">
+                <img style="height: 30px; width:30px;" th:src="@{/images/user-icon.png}"/>
             </a>
             &nbsp;&nbsp;
             <form th:action="@{/logout}" method="POST">

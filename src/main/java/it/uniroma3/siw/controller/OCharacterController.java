@@ -134,17 +134,6 @@ public class OCharacterController {
 		return "character.html";
 	}
 	
-	//richiede la lista dei personaggi creati
-	@GetMapping("/userCharacters")
-	public String getUserOCharacters(Model model) {
-		//prende l'utente loggato
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-		model.addAttribute("user", credentials.getUser());
-		model.addAttribute("listCharacter", credentials.getUser().getCharacters());
-		return "userCharacters.html";
-	}
-	
 	//richiede la lista di tutti i personaggi pubblici creati sul server
 	@GetMapping("/characters")
 	public String getOCharacters(Model model) {
@@ -246,10 +235,19 @@ public class OCharacterController {
 		//controllo se si sta visitando il proprio profilo o quello di un altro utente
 		if (userId != credentials.getUser().getId())
 			toFilter = this.userService.getUser(userId).getPublicCharacters();
-		else
+		else if(userId == credentials.getUser().getId() || credentials.getRole().equals("ADMIN"))
 			toFilter = this.userService.getUser(userId).getCharacters();
 		model.addAttribute("listCharacter", filter(toFilter, name, order, creationTime));
 		return "home.html";
+	}
+	
+	//adds/removes a character from a user favored list
+	@GetMapping("/character/favored/{id}")
+	public String favoredCharacter(@PathVariable("id") Long id, Model model) {
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		this.userService.favoredHandler(credentials.getUser(), this.characterService.findById(id));
+		return "redirect:/character/" + id;
 	}
 	
 	@GetMapping("/character/delete/{id}")

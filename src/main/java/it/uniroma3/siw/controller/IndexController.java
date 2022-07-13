@@ -40,7 +40,7 @@ public class IndexController {
 		model.addAttribute("user", this.userService.getUser(userId));
 		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-		if(credentials.getUser().getId() == userId)
+		if(credentials.getUser().getId() == userId || credentials.getRole().equals("ADMIN"))
 		    model.addAttribute("listCharacter", this.userService.getUser(userId).getCharacters());
 		else
 			model.addAttribute("listCharacter", this.userService.getUser(userId).getPublicCharacters());

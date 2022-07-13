@@ -18,12 +18,12 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         User user = (User) o;
-        String nome = user.getName().trim();
+        String name = user.getName().trim();
 
-        if (nome.isEmpty())
-            errors.rejectValue("nome", "required");
-        else if (nome.length() < MIN_NAME_LENGTH || nome.length() > MAX_NAME_LENGTH)
-            errors.rejectValue("nome", "size");
+        if (name.isEmpty())
+            errors.rejectValue("name", "required");
+        else if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH)
+            errors.rejectValue("name", "size");
     }
 
     @Override

@@ -2,23 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/base.html :: headerfiles(title='Login')"> </head>
 <body>
-	<div>
-		<h4>Login</h4>
-	</div>
-	<form th:action="@{/login}" method="POST">
+    <div class="backgroundContainer container d-flex flex-column justify-content-center align-items-center border border-2 rounded-3">
 		<div>
-			<div>
-				<span>Username:</span>
-				<span><input name="username" type="text" required /></span>
-			</div>		
-			<div>
-				<span>Password:</span>
-				<span><input name="password" type="password" required /></span>
-			</div>
-			<div>
-				<span><button type="submit">Login</button></span>
-			</div>
+			<h4>Login</h4>
 		</div>
-	</form>
+		<form th:action="@{/login}" method="POST">
+			<div>
+				<div>
+					<span>Username:</span>
+					<span><input name="username" type="text" required /></span>
+				</div>		
+				<div>
+					<span>Password:</span>
+					<span><input name="password" type="password" required /></span>
+				</div>
+				<div>
+					<span><button type="submit">Login</button></span>
+				</div>
+			</div>
+		</form>
+    </div>
 </body>
 </html>
