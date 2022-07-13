@@ -67,6 +67,15 @@ public class User {
 		this.favored = favored;
 	}
 	
+	public List<OCharacter> getPublicCharacters(){
+		List<OCharacter> publicChars = new ArrayList<OCharacter>();
+		for (OCharacter c : this.characters) {
+			if (c.isPrivateChr())
+				publicChars.add(c);
+		}
+		return publicChars;
+	}
+	
 	public void addCharacter(OCharacter character) {
 		this.characters.add(character);
 		character.setUser(this);

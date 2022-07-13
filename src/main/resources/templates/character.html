@@ -24,12 +24,13 @@
                         <img style="height: 25px; width:25px;" th:src="@{/images/edit-icon.png}" />
                     </a>
                     &nbsp;&nbsp;
-                    <a th:href="@{'/character/edit/' + ${character.id}}" title="Cancella il personaggio">
+                    <a th:href="@{'/character/delete/' + ${character.id}}" title="Cancella il personaggio">
                         <img style="height: 25px; width:25px;" th:src="@{/images/delete-icon.png}" />
                     </a>
 		        </div>
 	        </div>
 	        <p class="m-2" th:text="${character.description}"></p>
+	        <a class="chapterList" title="Vedi tutti i personaggi creati da questo utente" th:href="@{'/home/' + ${character.user.id}}" th:text="'(Altri personaggi creati da ' + ${character.user.name} + ')'"/>
 	    </div>
 	</div>
     <div class="backgroundContainer container-fluid border border-2 rounded-3">

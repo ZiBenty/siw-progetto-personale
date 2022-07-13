@@ -5,6 +5,8 @@ import java.util.Calendar;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.controller.validator.ChapterValidator;
 import it.uniroma3.siw.model.Chapter;
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.OCharacter;
 import it.uniroma3.siw.service.ChapterService;
+import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.OCharacterService;
 
 @Controller
@@ -26,7 +30,10 @@ public class ChapterController {
 	@Autowired
 	private OCharacterService characterService;
 	@Autowired
+	private CredentialsService credentialsService;
+	@Autowired
 	private ChapterValidator chapterValidator;
+	
 	
 	//salva e ritorna il capitolo salvato
 	@PostMapping("/chapter/{charId}")
@@ -46,6 +53,9 @@ public class ChapterController {
 				this.chapterService.edit(toModify, chapter);
 				model.addAttribute("chapter", toModify);
 			}
+			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+			model.addAttribute("user", credentials.getUser());
 			return "chapter.html";
 		} else {
 			model.addAttribute("character", character);
@@ -84,6 +94,9 @@ public class ChapterController {
 	public String getChapter(@PathVariable("id") Long id, Model model) {
 		Chapter chapter = this.chapterService.findById(id);
 		model.addAttribute("chapter", chapter);
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		model.addAttribute("user", credentials.getUser());
 		return "chapter.html";
 	}
 	

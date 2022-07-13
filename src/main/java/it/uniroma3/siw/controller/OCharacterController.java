@@ -84,6 +84,9 @@ public class OCharacterController {
 				model.addAttribute(toModify);
 				model.addAttribute("listChapters", toModify.getStory());
 			}
+			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+			model.addAttribute("user", credentials.getUser());
 			return "character.html";
 		} else {
 			model.addAttribute("user", user);
@@ -149,16 +152,13 @@ public class OCharacterController {
 		return "characters.html";
 	}
 	
-	//ritorna la lista filtrata e ordinata secondo i parametri del modello
+	//filtra secondo i parametri passati
 	@SuppressWarnings("deprecation")
-	@GetMapping("/characters/filter")
-	public String filterOCharacters(@RequestParam String name, 
-			                        @RequestParam String order,
-			                        @RequestParam String creationTime, 
-			                        Model model) {
-		//filtra per l'attributo name e se è stato creato entro creationTime
+	private List<OCharacter> filter(List<OCharacter> toFilter, 
+			String name, String order, String creationTime){
 		List<OCharacter> filteredChars = new ArrayList<OCharacter>();
-		for(OCharacter c : this.characterService.findAllPublic()) {
+		//filtra per l'attributo name e se è stato creato entro creationTime
+		for(OCharacter c : toFilter) {
 			if(c.getName().toLowerCase().contains(name.toLowerCase()))
 				switch(creationTime) {
 				case "today":
@@ -218,8 +218,38 @@ public class OCharacterController {
 			Collections.reverse(filteredChars);
 			break;
 		}
-		model.addAttribute("listCharacter", filteredChars);
+		return filteredChars;
+	}
+	
+	//ritorna la lista filtrata da tutti i personaggi e ordinata secondo i parametri del modello
+	@GetMapping("/characters/filter")
+	public String filterOCharacters(@RequestParam String name, 
+			                        @RequestParam String order,
+			                        @RequestParam String creationTime, 
+			                        Model model) {
+		model.addAttribute("listCharacter", filter(this.characterService.findAllPublic(), name, order, creationTime));
 				return "characters.html";
+	}
+	
+	//ritorna la lista filtrata da tutti i personaggi e ordinata secondo i parametri del modello
+	@GetMapping("/characters/filter/{userId}")
+	public String filterOCharactersUser(@PathVariable("userId") Long userId, 
+			                        @RequestParam String name, 
+			                        @RequestParam String order,
+			                        @RequestParam String creationTime, 
+			                        Model model) {
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		model.addAttribute("user", this.userService.getUser(userId));
+		//lista da ritornare al modello
+		List<OCharacter> toFilter = new ArrayList<OCharacter>();
+		//controllo se si sta visitando il proprio profilo o quello di un altro utente
+		if (userId != credentials.getUser().getId())
+			toFilter = this.userService.getUser(userId).getPublicCharacters();
+		else
+			toFilter = this.userService.getUser(userId).getCharacters();
+		model.addAttribute("listCharacter", filter(toFilter, name, order, creationTime));
+		return "home.html";
 	}
 	
 	@GetMapping("/character/delete/{id}")

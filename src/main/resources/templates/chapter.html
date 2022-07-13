@@ -5,13 +5,23 @@
 
 <body>
     <header th:replace="fragments/base.html :: headerUser"></header>
-		<div class="border">
-			<h4 th:text="${chapter.title}"></h4>
-			<a th:href="@{'/chapter/edit/' + ${chapter.id}}">Modifica</a>
-		    &nbsp;
-			<a th:href="@{'/chapter/delete/' + ${chapter.id}}">Cancella</a>
-		</div>
-	    <div>
+		<div class="backgroundContainer container-fluid d-flex flex-column  border border-2 rounded-3">
+			<div class="d-flex flex-row">
+			    <a th:href="@{'/character/' + ${chapter.character.id}}" title="Torna al Personaggio">
+	                <img style="height: 25px; width:25px;" th:src="@{/images/back-icon.png}" />
+	            </a>
+	            &nbsp;
+				<h4 th:text="${chapter.title}"></h4>
+				<div class="ms-auto" th:if="${user.id} == ${chapter.character.user.id} or ${#authentication.getPrincipal().getAuthorities()[0].getAuthority() == 'ADMIN'}">
+		            <a th:href="@{'/chapter/edit/' + ${chapter?.id}}" title="Modifica il capitolo">
+		                <img style="height: 20px; width:20px;" th:src="@{/images/edit-icon.png}" />
+		            </a>
+		            &nbsp;
+		            <a th:href="@{'/chapter/delete/' + ${chapter?.id}}" title="Cancella il capitolo">
+		                <img style="height: 20px; width:20px;" th:src="@{/images/delete-icon.png}" />
+		            </a>
+		        </div>
+			</div>
 	        <th:block th:text="${chapter.content}"></th:block>
 		</div>
 	</div>
